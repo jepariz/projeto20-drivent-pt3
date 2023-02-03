@@ -3,7 +3,6 @@ import { paymentRequired } from "@/errors/payment-required";
 import enrollmentRepository from "@/repositories/enrollment-repository";
 import hotelsRepository from "@/repositories/hotels-repository";
 import ticketRepository from "@/repositories/ticket-repository";
-import { PAYMENT_REQUIRED } from "http-status";
 
 
 async function getHotels(userId: number) {
@@ -47,8 +46,22 @@ async function findEnrollment(userId: number) {
       }
 }
 
+async function getRoomsByHotelId(userId: number, hotelId: number) {
+
+    await findEnrollment(userId)
+
+    const rooms = await hotelsRepository.findHotelRoomsById(hotelId);
+
+    if (!rooms || rooms.Rooms.length === 0) {
+        throw notFoundError();
+    }
+
+    return rooms;
+}
+
 const hotelsService = {
     getHotels,
+    getRoomsByHotelId
 };
 
 export default hotelsService;

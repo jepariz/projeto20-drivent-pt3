@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { authenticateToken } from "@/middlewares";
-import { getHotels } from "@/controllers";
+import { getHotels, getHotelRoomsById } from "@/controllers";
 
 
 const hotelsRouter = Router();
@@ -8,6 +8,6 @@ const hotelsRouter = Router();
 hotelsRouter
   .all("/*", authenticateToken)
   .get("/", getHotels)
-//   .get("/:hotelId", getHotelById);
+.get("/:hotelId", getHotelRoomsById);
 
 export { hotelsRouter };
